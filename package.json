@@ -1,0 +1,26 @@
+{
+  "name": "http-api-assignment",
+  "version": "1.0.0",
+  "description": "http api assignment",
+  "main": "./src/server.js",
+  "scripts": {
+    "start": "node ./src/server.js",
+    "pretest": "eslint ./src --fix",
+    "test": "echo \"Test complete\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JoeB426/http-api-assignment.git"
+  },
+  "author": "Joe Brucie",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/JoeB426/http-api-assignment/issues"
+  },
+  "homepage": "https://github.com/JoeB426/http-api-assignment#readme",
+  "devDependencies": {
+    "eslint": "^7.9.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-plugin-import": "^2.22.0"
+  }
+}

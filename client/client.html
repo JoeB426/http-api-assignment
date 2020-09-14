@@ -2,10 +2,87 @@
 <html lang="en">
 <head>
   <title>Our simple HTTP server</title>
-  <link rel="stylesheet" type="text/css" href="/style.css">
+  <link rel="stylesheet" type="text/css" href="./style.css">
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
   <script type="text/babel">
+
+    const handleResponse = (xhr) => {
+      const content = document.querySelector("#content");
+
+      const obj = JSON.parse(xhr.response);
+
+      switch(xhr.status) {
+        case 200: //success
+          content.innerHTML = `<b>Success</b>`;
+          break;
+        case 400: //bad request 
+          content.innerHTML = `<b>Bad Request</b>`;
+          break;
+        case 401: //Unauthorized 
+          content.innerHTML = `<b>Unauthorized</b>`;
+          break;
+        case 403: //Forbidden
+          content.innerHTML = `<b>Forbidden</b>`;
+          break;
+        case 500: //Internal
+          content.innerHTML = `<b>Internal Server Error</b>`;
+          break;
+        case 501: //Not Implemented
+          content.innerHTML = `<b>Not Implemented</b>`;
+          break;
+        case 404: //not found (requested resource does not exist)
+          content.innerHTML = `<b>Resource Not Found</b>`;
+          break;
+        default: //default other errors we are not handling in this example
+          content.innerHTML = `Error code not implemented by client.`;
+          break;
+      }
+        content.innerHTML += `<p>${obj.message}</p>`;
+    };
+
+    const sendAjax = (url) => {
+      const xhr = new XMLHttpRequest();
+
+      xhr.open('GET', url);
+
+      xhr.setRequestHeader ("Accept", 'application/json');
+
+      xhr.onload = () => handleResponse(xhr);
+
+      xhr.send();
+    }
+
+
+    //This is the part I struggled at
+    //Trying to figure out how to get selected values of the drop down menus 
+    const init = () => {
+      const sendButton = document.querySelector("#send");
+
+      const pageV = document.querySelector("#page").value;
+      const typeV = document.querySelector("#type").value;
+
+      const success = () => sendAjax('/success');
+      const badRequest = () => sendAjax('/badRequest');
+      const unauthorized = () => sendAjax('/unauthorized');
+      const forbidden = () => sendAjax('/forbidden');
+      const internal = () => sendAjax('/internal');
+      const notImplemented = () => sendAjax('/notImplemented');
+      const notFound = () => sendAjax('/notFound');
+
+
+      if (pageV === "/success" && typeV === "application/json") {
+        sendButton.addEventListener('click', success);
+      } 
+      else if (pageV === "/badRequest" && typeV === "application/json") {
+        sendButton.addEventListener('click', badRequest);
+      } 
+      else if (pageV === "/unauthorized" && typeV === "application/json") {
+        sendButton.addEventListener('click', unauthorized);
+      }
+    }
+
+    window.onload = init;
 
   </script>
 </head>
